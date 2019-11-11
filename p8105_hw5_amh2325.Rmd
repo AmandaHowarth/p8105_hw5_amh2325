@@ -12,7 +12,7 @@ library(tidyverse)
 library(broom)
 ```
 
-#Load IRIS dataset from the TIDYVERSE 
+## Load IRIS dataset from the TIDYVERSE 
 ```{r}
 library(tidyverse)
 
@@ -115,9 +115,19 @@ sim_results =
 ```
 Make a plot showing the proportion of times the null was rejected (the power of the test) on the y axis and the true value of β1 on the x axis. Describe the association between effect size and power.
 
-
-
-
+```{r}
+sim_results %>% 
+  mutate(null_rejected = ifelse(p_value < 0.05, "reject", "fail to reject")) %>% 
+  group_by(beta1_new, null_rejected) %>% 
+ summarise_(n= ~n()) %>%
+  mutate(proportion = prop.table(n/sum(n))) %>% 
+  filter(null_rejected == "reject") %>%
+  ggplot(aes(x = beta1_new, y = proportion)) +  geom_line() +
+  
+  labs(title = "Power of Test per Effect Size (true value of beta1)", 
+           x = "Effect Size",
+           y = "Power") +
+  theme(plot.title = element_text(size = 10, face = "bold"))
 ```
 
 
