@@ -78,6 +78,7 @@ ggplot(treatment_study_data, aes(x = week, y = result, group = subject_id, color
 ```
 Overall, the subejcts in the control group experienced results of lower values each week (for all weight weeks) than subjects in the experimental group.
 
+## PROBLEM 3 
 
 
 
