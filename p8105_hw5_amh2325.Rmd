@@ -73,7 +73,7 @@ ggplot(treatment_study_data, aes(x = week, y = result, group = subject_id,
            y = "Results") +
   theme(plot.title = element_text(size = 10, face = "bold"))
 ```
-Overall, the subejcts in the control group experienced results (observations) of lower values each week (for all weight weeks) compared to subjects in the experimental group. Thus, if the result was, for example, improved eyesight, it would appear that the treatment would have worked better for participants receiving treatment in the experimental group.
+Overall, the subejcts in the control group experienced results (observations) of lower values each week (for all 8 weeks) compared to subjects in the experimental group. Thus, if the result was, for example, improved eyesight, it would appear that the treatment would have worked better for participants receiving treatment in the experimental group.
 
 ## PROBLEM 3 
  Set the following design elements:
@@ -107,7 +107,7 @@ Repeat the above for β1={1,2,3,4,5,6}
 
 ```{r}
 sim_results = 
-  tibble(beta1_new = c(1, 2, 3, 4, 5, 6)) %>% 
+  tibble(beta1_new = c(0, 1, 2, 3, 4, 5, 6)) %>% 
   mutate(output_list = map(.x = beta1_new, ~rerun(10000, sim_regression(beta1 = .x))),
   estimate_df = map(output_list, bind_rows))%>%
   select(-output_list)%>% 
@@ -129,7 +129,37 @@ sim_results %>%
            y = "Power") +
   theme(plot.title = element_text(size = 10, face = "bold"))
 ```
+## Describe the association between effect size and power.
 
+We can see above that as the effect size increases, power also increases. 
+
+```{r}
+plot1 = sim_results %>% 
+  group_by(beta1_new) %>% 
+  summarise(mean_beta_hat = mean(beta1_hat)) %>% 
+    ggplot(aes(x = beta1_new, y = mean_beta_hat)) + geom_point() +geom_line() +
+  
+  labs(title = "Average Beta1_hat values Across True Values of Beta1", 
+           x = "True Values of Beta1",
+           y = "Average Values of Beta1_hat") +
+  theme(plot.title = element_text(size = 10, face = "bold"))
+plot1
+
+plot2 = sim_results %>% 
+  mutate(null_rejected = ifelse(p_value < 0.05, "reject", "fail to reject")) %>% 
+  group_by(beta1_new, null_rejected) %>% 
+  filter(null_rejected == "reject") %>%
+  summarise(mean_beta_hat = mean(beta1_hat)) %>% 
+    ggplot(aes(x = beta1_new, y = mean_beta_hat)) + geom_point() +geom_line() +
+  
+  labs(title = "Average Beta1_hat values Across True Values of Beta1, when the Null is Rejected (p-value < 0.05)", 
+           x = "True Values of Beta1",
+           y = "Average Values of Beta1_hat") +
+  theme(plot.title = element_text(size = 10, face = "bold"))
+plot2
+  
+
+```
 
 
 
