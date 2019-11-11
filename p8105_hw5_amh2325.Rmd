@@ -77,11 +77,11 @@ Overall, the subejcts in the control group experienced results (observations) of
 
 ## PROBLEM 3 
  Set the following design elements:
-* Fix n=30
-* Fix xi1 as draws from a standard Normal distribution
-* Fix β0=2
-* Fix σ2=50
-* Set β1=0. Generate 10000 datasets from the model
+ 1) Fix n=30 <br>
+ 2) Fix xi1 as draws from a standard Normal distribution <br>
+ 3) Fix β0=2 <br>
+ 4) Fix σ2=50 <br>
+ 5) Set β1=0. Generate 10000 datasets from the model <br>
 ```{r}
 set.seed(1)
 
@@ -129,10 +129,12 @@ sim_results %>%
            y = "Power") +
   theme(plot.title = element_text(size = 10, face = "bold"))
 ```
-## Describe the association between effect size and power.
-
+**Describe the association between effect size and power.**
 We can see above that as the effect size increases, power also increases. 
 
+
+1) Make 1st plot showing the average estimate of β̂ 1 on the y axis and the true value of β1 on the x axis. <br>
+2) Make 2nd second plot the average estimate of β̂ 1 only in samples for which the null was rejected on the y axis and the true value of β1 on the x axis
 ```{r}
 plot1 = sim_results %>% 
   group_by(beta1_new) %>% 
@@ -154,12 +156,12 @@ plot2 = sim_results %>%
   
   labs(title = "Average Beta1_hat values Across True Values of Beta1, when the Null is Rejected (p-value < 0.05)", 
            x = "True Values of Beta1",
-           y = "Average Values of Beta1_hat") +
+           y = "Average Values of Beta1_hat (Null is Rejected") +
   theme(plot.title = element_text(size = 10, face = "bold"))
 plot2
-  
-
 ```
 
+**Is the sample average of β̂ 1 across tests for which the null is rejected approximately equal to the true value of β1? Why or why not?**
 
+One can see above that the sample average of β̂1 across tests for which the null is rejected is NOT approximately equal to the true value of β1. The average values of β̂1 are overall higher for the true value of β1 when the null is rejected compared to the total sample (rejected and failed to reject), where the sample average of β̂1 across tests IS approximately equal to the true value of β1. However, when comparing the plots, they are similar when the true value of  β1 = 0 and when the true value of β1 approaches 6. 
 
