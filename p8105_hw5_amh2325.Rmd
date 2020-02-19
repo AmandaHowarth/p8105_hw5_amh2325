@@ -165,4 +165,4 @@ plot2
 
 One can see above that the sample average of β̂1 across tests for which the null is rejected is NOT approximately equal to the true value of β1. The average values of β̂1 are overall higher for the true value of β1 when the null is rejected compared to the total sample (rejected and failed to reject), where the sample average of β̂1 across tests IS approximately equal to the true value of β1. However, when comparing the plots, they are similar when the true value of  β1 = 0 and when the true value of β1 approaches 6. 
 
-1
+12
